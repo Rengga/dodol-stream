@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        margin: 0;
+        background: transparent;
+        overflow: hidden;
+      }
+
+      img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        animation: bounce 0.5s ease;
+      }
+
+      @keyframes bounce {
+        0% {
+          transform: translate(-50%, -50%) scale(0.8);
+        }
+        50% {
+          transform: translate(-50%, -50%) scale(1.2);
+        }
+        70% {
+          transform: translate(-50%, -50%) scale(0.95);
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <script>
+      $(function () {
+        const ws = new WebSocket("ws://localhost:3000");
+
+        ws.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          console.log("Received:", data);
+
+          if (data.type === "reaction") {
+            showImage(data.image);
+          }
+        };
+
+        function showImage(src) {
+          const img = $("<img>").attr("src", src);
+          $("body").empty();
+          $("body").append(img);
+          setTimeout(() => {
+            img.remove();
+          }, 3000);
+        }
+      });
+    </script>
+  </body>
+</html>

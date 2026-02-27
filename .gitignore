@@ -1,0 +1,6 @@
+# Node
+node_modules/
+
+# Upload assets (ignore isi tapi tetap simpan folder)
+# public/assets/*
+# !public/assets/.gitkeep
