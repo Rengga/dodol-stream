@@ -1,8 +1,3 @@
-Siap 👍 berikut versi **README.md yang rapi** berdasarkan catatan yang kamu kirim.
-Tinggal copy semua isi di bawah ini ke file `README.md`.
-
----
-
 ````markdown
 # 🎬 Stream Reaction Overlay
 
@@ -100,4 +95,8 @@ Happy Streaming 🎮🔥
 ---
 
 Kalau kamu mau, aku bisa bikin versi yang lebih profesional untuk GitHub (pakai badge, struktur folder, dan screenshot section).
+```
+
+```
+
 ```
