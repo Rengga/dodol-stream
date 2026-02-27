@@ -61,7 +61,7 @@ http://localhost:3000/overlay.html
 Buka di browser:
 
 ```
-http://localhost:3000/chat.html
+http://localhost:3000/index.html
 ```
 
 Digunakan untuk:
