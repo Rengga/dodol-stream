@@ -2,40 +2,55 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+
     <style>
+      html,
       body {
         margin: 0;
+        padding: 0;
         background: transparent;
         overflow: hidden;
+        width: 100%;
+        height: 100%;
       }
 
-      img {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+      #overlay {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        pointer-events: none;
+      }
+
+      #overlay img {
         width: 400px;
         animation: bounce 0.5s ease;
       }
 
       @keyframes bounce {
         0% {
-          transform: translate(-50%, -50%) scale(0.8);
+          transform: scale(0.8);
         }
         50% {
-          transform: translate(-50%, -50%) scale(1.2);
+          transform: scale(1.2);
         }
         70% {
-          transform: translate(-50%, -50%) scale(0.95);
+          transform: scale(0.95);
         }
         100% {
-          transform: translate(-50%, -50%) scale(1);
+          transform: scale(1);
         }
       }
     </style>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
+
   <body>
+    <div id="overlay"></div>
+
     <script>
       $(function () {
         const ws = new WebSocket("ws://localhost:3000");
@@ -45,17 +60,30 @@
           console.log("Received:", data);
 
           if (data.type === "reaction") {
-            showImage(data.image);
+            showImage(data.image, data.duration || 3000);
           }
         };
 
-        function showImage(src) {
-          const img = $("<img>").attr("src", src);
-          $("body").empty();
-          $("body").append(img);
+        function showImage(src, duration) {
+          const container = $("#overlay");
+
+          container.stop(true, true);
+
+          container.find("img").each(function () {
+            $(this).attr("src", "");
+            $(this).remove();
+          });
+
+          const img = $("<img>").attr("src", src + "?t=" + Date.now());
+
+          container.append(img);
+
           setTimeout(() => {
-            img.remove();
-          }, 3000);
+            img.fadeOut(200, function () {
+              $(this).attr("src", "");
+              $(this).remove();
+            });
+          }, duration);
         }
       });
     </script>
