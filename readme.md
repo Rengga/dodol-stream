@@ -1,6 +1,9 @@
 npm init -y
+
 npm install express ws multer
+
 atau
+
 npm install
 
 run node server.js
