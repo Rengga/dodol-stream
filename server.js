@@ -54,16 +54,17 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 wss.on("connection", (ws) => {
-  ws.on("message", (msg) => {
-    const data = JSON.parse(msg);
+  console.log("Client connected");
 
-    if (data.type === "reaction") {
-      wss.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify(data));
-        }
-      });
-    }
+  ws.on("message", (msg) => {
+    console.log("Server received:", msg.toString());
+
+    // Broadcast ke semua client tanpa filter type
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(msg.toString());
+      }
+    });
   });
 });
 
