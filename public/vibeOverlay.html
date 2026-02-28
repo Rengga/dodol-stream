@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vibe Overlay - Firefly Edition</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+      body {
+        margin: 0;
+        background: transparent;
+        overflow: hidden;
+      }
+
+      #overlay {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        transition: background 0.5s ease;
+      }
+
+      /* ================= JAZZ (FIREFLY BOKEH) ================= */
+      .jazz {
+        background: radial-gradient(circle at center, #772a0060 0%, #310a00c7 70%);
+      }
+
+      /* Spotlight Background */
+      .jazz::before,
+      .jazz::after {
+        content: "";
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.3;
+        animation: jazzLightMove 12s ease-in-out infinite alternate;
+      }
+
+      .jazz::before {
+        background: radial-gradient(circle, rgba(255, 238, 0, 0.5), transparent 70%);
+        top: -200px;
+        left: -200px;
+      }
+
+      .jazz::after {
+        background: radial-gradient(circle, rgba(255, 182, 74, 0.7), transparent 70%);
+        bottom: -200px;
+        right: -200px;
+        animation-delay: -4s;
+      }
+
+      /* Partikel Kunang-kunang / Bokeh */
+      .firefly {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 220, 100, 0.9) 0%, rgba(255, 149, 0, 0.288) 70%);
+        mix-blend-mode: screen;
+        pointer-events: none;
+        animation: fireflyFloat linear infinite, fireflyGlow ease-in-out infinite alternate;
+      }
+
+      @keyframes fireflyFloat {
+        0% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        50% {
+          transform: translate(20px, -40px) rotate(180deg);
+        }
+        100% {
+          transform: translate(-10px, -80px) rotate(360deg);
+        }
+      }
+
+      @keyframes fireflyGlow {
+        from {
+          opacity: 0.1;
+        }
+        to {
+          opacity: 0.8;
+        }
+      }
+
+      @keyframes jazzLightMove {
+        0% {
+          transform: translate(0, 0) scale(1);
+        }
+        100% {
+          transform: translate(100px, 50px) scale(1.2);
+        }
+      }
+
+      /* ================= OTHERS (RETAINED) ================= */
+      .underwater {
+        background: radial-gradient(circle at center, #0325b983, #000150bb);
+      }
+      .bubble {
+        position: absolute;
+        bottom: -50px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        animation: rise linear infinite;
+      }
+      @keyframes rise {
+        from {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateY(-110vh);
+          opacity: 0;
+        }
+      }
+
+      /* ================= IDOL (FIXED MOVEMENT) ================= */
+
+      .sparkle {
+        position: absolute;
+        top: -20px; /* Titik awal di atas layar */
+        border-radius: 50%;
+        pointer-events: none;
+        box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+        will-change: transform;
+        /* Gabungkan animasi: jatuh, goyang, warna, dan kedip */
+        animation: sparkleFall linear infinite, sparkleSide ease-in-out infinite alternate;
+      }
+
+      /* ================= IDOL (SOLID GLOW EDITION) ================= */
+
+      .sparkle {
+        position: absolute;
+        top: -20px;
+        border-radius: 50%;
+        pointer-events: none;
+        background: white; /* Inti putih yang lebih jelas */
+        will-change: transform;
+        z-index: 9999;
+      }
+
+      @keyframes sparkleFall {
+        0% {
+          transform: translateY(0) scale(0);
+          opacity: 0;
+        }
+        15% {
+          opacity: 1;
+          transform: translateY(15vh) scale(1);
+        }
+        85% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(110vh) scale(0.6); /* Tetap agak besar saat di bawah */
+          opacity: 0;
+        }
+      }
+
+      @keyframes sparkleSwing {
+        0% {
+          margin-left: -25px;
+        }
+        100% {
+          margin-left: 25px;
+        }
+      }
+
+      /* Efek berkedip lembut agar cahaya tidak statis */
+      @keyframes sparklePulse {
+        from {
+          transform: scale(0.5);
+        }
+        to {
+          transform: scale(1.2);
+        }
+      }
+
+      /* ================= METAL (AGGRESSIVE CONCERT) ================= */
+
+      .metal {
+        /* Efek lampu strobe merah-hitam yang sangat cepat */
+        animation: metalStrobe 0.1s infinite;
+      }
+
+      @keyframes metalStrobe {
+        0% {
+          background: rgba(241, 1, 1, 0.9);
+        }
+        50% {
+          background: rgba(139, 0, 0, 0.4);
+        } /* Merah darah gelap */
+        100% {
+          background: rgba(0, 0, 0, 0.9);
+        }
+      }
+
+      /* Partikel Percikan Api (Sparks) */
+      .spark {
+        position: absolute;
+        width: 2px;
+        height: 15px; /* Bentuk memanjang seperti percikan */
+        background: #ffcc00;
+        box-shadow: 0 0 10px #ff4500, 0 0 20px #ff0000;
+        pointer-events: none;
+        z-index: 10000;
+      }
+
+      @keyframes sparkShoot {
+        0% {
+          transform: translateY(0) rotate(var(--angle)) scaleY(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) rotate(var(--angle)) scaleY(2);
+          opacity: 0;
+        }
+      }
+
+      /* ================= DISCO (RETRO NIGHT) ================= */
+
+      .disco {
+        /* Efek warna background yang berdenyut */
+        background: radial-gradient(circle at center, rgba(126, 0, 255, 0.2) 0%, rgba(0, 0, 0, 0.8) 100%);
+        animation: discoPulse 2s ease-in-out infinite alternate;
+      }
+
+      @keyframes discoPulse {
+        from {
+          background-color: rgba(40, 0, 60, 0.5);
+        }
+        to {
+          background-color: rgba(0, 40, 60, 0.5);
+        }
+      }
+
+      .disco-particle {
+        position: absolute;
+        border-radius: 4px; /* Sedikit kotak seperti pantulan cermin bola disco */
+        background: white;
+        pointer-events: none;
+        will-change: transform;
+        z-index: 9999;
+      }
+
+      /* Gerakan memutar dan memantul */
+      @keyframes discoDance {
+        0% {
+          transform: rotate(0deg) translate(0, 0) scale(1);
+          opacity: 0;
+        }
+        25% {
+          opacity: 1;
+        }
+        75% {
+          opacity: 1;
+        }
+        100% {
+          transform: rotate(360deg) translate(var(--move-x), var(--move-y)) scale(0.5);
+          opacity: 0;
+        }
+      }
+
+      /* Animasi perubahan warna shadow sakti */
+      @keyframes discoColorShift {
+        0% {
+          filter: hue-rotate(0deg);
+        }
+        100% {
+          filter: hue-rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="overlay"></div>
+
+    <script>
+      const overlay = document.getElementById("overlay");
+      const ws = new WebSocket("ws://localhost:3000");
+      let timer = null;
+
+      function createFireflies() {
+        // Kita buat sekitar 25 partikel untuk efek bokeh yang kaya
+        for (let i = 0; i < 25; i++) {
+          const f = document.createElement("div");
+          f.className = "firefly";
+
+          // Variasi Ukuran (Besar untuk efek Bokeh Lensa)
+          const size = 10 + Math.random() * 800;
+          f.style.width = size + "px";
+          f.style.height = size + "px";
+
+          // Semakin besar lingkaran, semakin blur (Depth of Field)
+          const blurValue = size / 4;
+          f.style.filter = `blur(${blurValue}px)`;
+
+          f.style.left = Math.random() * 140 + "vw";
+          f.style.top = Math.random() * 140 + "vh";
+
+          // Animasi Random
+          const durationMove = 10 + Math.random() * 15 + "s";
+          const durationGlow = 2 + Math.random() * 4 + "s";
+          f.style.animationDuration = `${durationMove}, ${durationGlow}`;
+          f.style.animationDelay = `-${Math.random() * 10}s`;
+
+          overlay.appendChild(f);
+        }
+      }
+
+      function createBubbles() {
+        for (let i = 0; i < 40; i++) {
+          const bubble = document.createElement("div");
+          bubble.className = "bubble";
+          bubble.style.left = Math.random() * 100 + "vw";
+          bubble.style.animationDuration = 3 + Math.random() * 5 + "s";
+          const size = 10 + Math.random() * 20 + "px";
+          bubble.style.width = size;
+          bubble.style.height = size;
+          overlay.appendChild(bubble);
+        }
+      }
+
+      function createSparkles() {
+        clearParticles();
+        const particleCount = 20;
+
+        for (let i = 0; i < particleCount; i++) {
+          const s = document.createElement("div");
+          s.className = "sparkle";
+
+          const hue = Math.random() * 360;
+          const color = `hsl(${hue}, 100%, 80%)`;
+
+          const shadow = `
+            0 0 50px 2px #fff,
+            5px 5px 60px 5px ${color}, 
+            -9px 5px 60px 5px ${color}, 
+            -7px -5px 60px 5px ${color}, 
+            12px -5px 60px 5px ${color}, 
+            0px 10px 60px 5px ${color}
+            `;
+          s.style.boxShadow = shadow;
+          s.style.webkitBoxShadow = shadow;
+
+          // Ukuran inti putih dibesarkan (10px - 18px)
+          const size = 20 + Math.random() * 8 + "px";
+          s.style.width = size;
+          s.style.height = size;
+          s.style.left = Math.random() * 100 + "vw";
+
+          const fallDuration = 3 + Math.random() * 4;
+
+          // Terapkan animasi
+          s.style.animation = `
+            sparkleFall ${fallDuration}s linear infinite, 
+            sparkleSwing ${1.5 + Math.random()}s ease-in-out infinite alternate
+            `;
+
+          s.style.animationDelay = `-${Math.random() * fallDuration}s`;
+
+          overlay.appendChild(s);
+        }
+      }
+
+      function clearParticles() {
+        overlay.innerHTML = "";
+      }
+
+      function createMetalSparks() {
+        clearParticles();
+        const sparkCount = 80;
+
+        for (let i = 0; i < sparkCount; i++) {
+          const s = document.createElement("div");
+          s.className = "spark";
+
+          // Posisi acak di bagian bawah layar
+          s.style.left = Math.random() * 100 + "vw";
+          s.style.bottom = "-20px";
+
+          // Memberikan sudut acak agar percikan menyebar
+          const angle = (Math.random() - 0.5) * 40; // -20deg sampai 20deg
+          s.style.setProperty("--angle", `${angle}deg`);
+
+          // Kecepatan sangat cepat
+          const duration = 0.5 + Math.random() * 0.8 + "s";
+          s.style.animation = `sparkShoot ${duration}s ease-out infinite`;
+
+          // Jeda acak agar muncul bergantian (seperti api panggung)
+          s.style.animationDelay = Math.random() * 2 + "s";
+
+          overlay.appendChild(s);
+        }
+      }
+
+      function createDiscoLights() {
+        clearParticles();
+        const particleCount = 50;
+
+        for (let i = 0; i < particleCount; i++) {
+          const d = document.createElement("div");
+          d.className = "disco-particle";
+
+          // Warna neon dasar untuk shadow
+          const hue = Math.random() * 360;
+          const color = `hsl(${hue}, 100%, 60%)`;
+
+          // Shadow berlapis (Gaya Sakti OBS)
+          const shadow = `
+      0 0 10px 2px white,
+      10px 10px 25px 5px ${color},
+      -10px -10px 25px 5px ${color},
+      15px -10px 30px 5px ${color},
+      -15px 10px 30px 5px ${color}
+    `;
+          d.style.boxShadow = shadow;
+          d.style.webkitBoxShadow = shadow;
+
+          // Ukuran (dibuat agak kotak kecil seperti cermin bola disco)
+          const size = 12 + Math.random() * 15 + "px";
+          d.style.width = size;
+          d.style.height = size;
+
+          // Posisi awal di tengah layar (seolah terpancar dari bola disco)
+          d.style.left = "50vw";
+          d.style.top = "40vh";
+
+          // Tentukan arah lari partikel secara acak
+          const moveX = (Math.random() - 0.5) * 150 + "vw";
+          const moveY = (Math.random() - 0.5) * 150 + "vh";
+          d.style.setProperty("--move-x", moveX);
+          d.style.setProperty("--move-y", moveY);
+
+          // Animasi
+          const duration = 2 + Math.random() * 3 + "s";
+          d.style.animation = `
+      discoDance ${duration}s linear infinite,
+      discoColorShift 3s linear infinite
+    `;
+
+          // Delay acak agar tidak muncul bersamaan
+          d.style.animationDelay = `-${Math.random() * duration}s`;
+
+          overlay.appendChild(d);
+        }
+      }
+
+      function applyVibe(mode, duration) {
+        clearParticles();
+        overlay.className = "";
+
+        if (mode === "stop") return;
+
+        overlay.classList.add(mode);
+
+        if (mode === "underwater") createBubbles();
+        if (mode === "idol") createSparkles();
+        if (mode === "jazz") createFireflies();
+        if (mode === "metal") createMetalSparks();
+
+        if (timer) clearTimeout(timer);
+        if (duration) {
+          timer = setTimeout(() => {
+            stopVibe();
+          }, duration);
+        }
+      }
+
+      function stopVibe() {
+        clearParticles();
+        overlay.className = "";
+      }
+
+      ws.onmessage = function (event) {
+        try {
+          const data = JSON.parse(event.data);
+          if (data.type === "vibe") {
+            applyVibe(data.mode, data.duration);
+          }
+        } catch (e) {
+          console.error("Error parsing WS data", e);
+        }
+      };
+    </script>
+  </body>
+</html>

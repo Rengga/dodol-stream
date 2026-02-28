@@ -1,13 +1,22 @@
-# 🎬 Stream Reaction & Emotion Overlay (OBS + WebSocket)
+Siap 🔥
+Karena sekarang sudah ada **Vibe Control & Vibe Overlay**, kita update README supaya lengkap dan profesional.
 
-Project sederhana untuk menampilkan **Reaction Gambar** dan **Emotion Effect Fullscreen** ke OBS menggunakan WebSocket realtime.
+Berikut versi README terbaru 👇
+
+---
+
+# 🎬 Stream Reaction, Emotion & Vibe Overlay (OBS + WebSocket)
+
+Project realtime overlay untuk OBS menggunakan **WebSocket**.
 
 Mendukung:
 
-- 🔥 Emotion Effect (Angry, Happy, Sad, Lazy)
+- 😡 Emotion Effect (Angry, Happy, Sad, Lazy)
 - 🖼️ Reaction Gambar Upload
+- 🌊🎷🪩 Vibe Background Cinematic Effect
 - 🌐 WebSocket Realtime
 - 🎥 OBS Browser Source
+- ⏱ Mode Berdurasi / Tanpa Waktu
 
 ---
 
@@ -19,6 +28,8 @@ public/
  ├── emotionOverlay.html
  ├── reactControl.html
  ├── reactOverlay.html
+ ├── vibeControl.html
+ ├── vibeOverlay.html
  └── assets/
 server.js
 ```
@@ -71,29 +82,25 @@ Tambahkan **Browser Source** di OBS lalu gunakan URL sesuai fitur.
 
 ---
 
-# 😄 Emotion Effect (Full Screen Visual Effect)
+# 😄 Emotion Effect (Fullscreen Effect)
 
 ## 🎛️ Control Panel
-
-Buka di browser:
 
 ```
 http://localhost:3000/emotionControl.html
 ```
 
-Digunakan untuk:
+Fitur:
 
 - Trigger Angry
 - Trigger Happy
 - Trigger Sad
 - Trigger Lazy
-- Mengatur durasi efek
+- Atur durasi efek
 
 ---
 
-## 🎬 Overlay untuk OBS
-
-Gunakan URL ini di OBS Browser Source:
+## 🎬 Overlay OBS
 
 ```
 http://localhost:3000/emotionOverlay.html
@@ -101,9 +108,9 @@ http://localhost:3000/emotionOverlay.html
 
 Fungsi:
 
-- Menampilkan efek fullscreen transparan
+- Efek fullscreen transparan
 - Realtime via WebSocket
-- Otomatis hilang sesuai durasi
+- Auto hide sesuai durasi
 
 ---
 
@@ -111,23 +118,20 @@ Fungsi:
 
 ## 🎛️ Control Panel
 
-Buka di browser:
-
 ```
 http://localhost:3000/reactControl.html
 ```
 
-Digunakan untuk:
+Fitur:
 
 - Upload gambar ke folder assets
-- Klik gambar untuk tampil
+- Klik untuk tampil
 - Hapus gambar
+- Support GIF
 
 ---
 
-## 🎬 Overlay untuk OBS
-
-Gunakan URL ini di OBS Browser Source:
+## 🎬 Overlay OBS
 
 ```
 http://localhost:3000/reactOverlay.html
@@ -135,9 +139,43 @@ http://localhost:3000/reactOverlay.html
 
 Fungsi:
 
-- Menampilkan gambar reaction fullscreen
-- Otomatis hilang sesuai durasi
-- Realtime via WebSocket
+- Menampilkan gambar fullscreen
+- Support GIF animasi
+- Auto hide sesuai durasi
+- Realtime
+
+---
+
+# 🌊🎷🪩 Vibe Background (Cinematic Stage Effect)
+
+## 🎛️ Control Panel
+
+```
+http://localhost:3000/vibeControl.html
+```
+
+Fitur:
+
+- 🌊 Underwater (gelembung banyak)
+- 🤘 Metal Concert (strobe stage)
+- 🎷 Jazz Lounge (lampu sorot remang + smoke)
+- 🌸 Idol Stage (sparkle particle)
+
+---
+
+## 🎬 Overlay OBS
+
+```
+http://localhost:3000/vibeOverlay.html
+```
+
+Fungsi:
+
+- Background fullscreen
+- Cinematic stage lighting
+- Particle animation
+- Realtime WebSocket
+- Bisa infinite mode
 
 ---
 
@@ -159,7 +197,8 @@ Jika menggunakan `.gitignore`, folder ini bisa di-ignore agar tidak ikut terpush
 
 - Express.js
 - WebSocket (ws)
-- Multer (upload file)
+- Multer (file upload)
+- Bootstrap 5
 - jQuery
 - CSS Animation
 - OBS Browser Source
@@ -168,24 +207,16 @@ Jika menggunakan `.gitignore`, folder ini bisa di-ignore agar tidak ikut terpush
 
 # 🔥 Tips OBS
 
-- Aktifkan:
+Disarankan aktifkan:
 
-  - ✔ Shutdown source when not visible
-  - ✔ Refresh browser when scene becomes active
+- ✔ Shutdown source when not visible
+- ✔ Refresh browser when scene becomes active
 
-- Resolution disarankan:
-  - 1920x1080 untuk emotion, untuk react sesuai selera
-  - Transparansi aktif
+Resolution disarankan:
 
----
+- 1920x1080 untuk Emotion & Vibe
+- Reaction bebas sesuai kebutuhan
 
-# 🎮 Siap Streaming!
+Centang:
 
-Sekarang kamu punya:
-
-- 🎆 Overlay Reaction Gambar
-- 😡😄😭😴 Emotion Visual Effect
-- ⚡ Realtime via WebSocket
-- 🎥 Integrasi OBS
-
-Happy Streaming 🔥🚀
+- ✔ Transparent Background
