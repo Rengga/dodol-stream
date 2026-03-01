@@ -1,38 +1,20 @@
-Siap 🔥
-Karena sekarang sudah ada **Vibe Control & Vibe Overlay**, kita update README supaya lengkap dan profesional.
-
-Berikut versi README terbaru 👇
+**_NgidolDodol_**
 
 ---
-
-# 🎬 Stream Reaction, Emotion & Vibe Overlay (OBS + WebSocket)
-
-Project realtime overlay untuk OBS menggunakan **WebSocket**.
 
 Mendukung:
 
-- 😡 Emotion Effect (Angry, Happy, Sad, Lazy)
-- 🖼️ Reaction Gambar Upload
-- 🌊🎷🪩 Vibe Background Cinematic Effect
-- 🌐 WebSocket Realtime
-- 🎥 OBS Browser Source
-- ⏱ Mode Berdurasi / Tanpa Waktu
+😡 Emotion Overlay
 
----
+🖼 Reaction Image
 
-# 📁 Struktur File
+🌊 Cinematic Vibe Background
 
-```
-public/
- ├── emotionControl.html
- ├── emotionOverlay.html
- ├── reactControl.html
- ├── reactOverlay.html
- ├── vibeControl.html
- ├── vibeOverlay.html
- └── assets/
-server.js
-```
+🎤 Live Lyrics System
+
+🌐 WebSocket Realtime
+
+🎥 OBS Production Ready
 
 ---
 
@@ -176,6 +158,112 @@ Fungsi:
 - Particle animation
 - Realtime WebSocket
 - Bisa infinite mode
+
+---
+
+🎤 Lyrics Overlay (Live Karaoke Mode)
+
+Fitur untuk menampilkan lirik lagu di OBS secara realtime.
+
+Mendukung:
+
+📋 Copy–paste semua lirik sekaligus
+
+🧹 Auto Clean (hapus [Verse], [Chorus], metadata Genius, dll)
+
+🎚 Pilih 2–4 baris per tampilan
+
+⏭ Tombol Next / Prev
+
+⏹ Clear lirik
+
+🌐 Realtime via WebSocket
+
+🎥 OBS Browser Source Ready
+
+📁 File Tambahan
+├── lyricControl.html
+├── lyricOverlay.html
+🎛️ Control Panel
+http://localhost:3000/lyricControl.html
+
+Fitur:
+
+Paste semua lirik dari website (termasuk Genius)
+
+Otomatis menghapus:
+
+[Verse]
+
+[Chorus]
+
+You might also like
+
+Genius Romanizations
+
+Judul lagu / metadata
+
+Pilih jumlah baris per slide (2–4)
+
+Tombol:
+
+▶ Next
+
+◀ Prev
+
+⏹ Clear
+
+🎬 Overlay OBS
+http://localhost:3000/lyricsOverlay.html
+
+Fungsi:
+
+Tampilan fullscreen transparan
+
+Animasi fade in
+
+Text shadow cinematic
+
+Realtime update
+
+Cocok untuk live band / karaoke stream
+
+🧠 Cara Kerja
+
+Paste seluruh lirik
+
+System otomatis membersihkan teks non-lirik
+
+Lirik dibagi sesuai jumlah baris per slide
+
+Tekan Next untuk lanjut ke bagian berikutnya
+
+Overlay update secara realtime
+
+🎵 Contoh Input
+[Verse 1]
+Fukikonda soyokaze ga
+Madobe no hana o yurashite
+
+You might also like
+Genius Romanizations
+🎬 Output di Overlay
+Fukikonda soyokaze ga
+Madobe no hana o yurashite
+
+Tanpa metadata / promosi.
+
+🔥 Cocok Untuk
+
+🎤 Live cover
+
+🎸 Band session
+
+🎶 Karaoke stream
+
+🎧 Music reaction
+
+🎙 Podcast baca puisi
 
 ---
 

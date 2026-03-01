@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lyrics Control</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+
+  <body class="bg-dark text-light">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary mb-2">
+      <div class="container-fluid">
+        <a class="navbar-brand w-100 text-center" href="http://localhost:3000/reactControl.html">React</a>
+        <a class="navbar-brand w-100 text-center" href="http://localhost:3000/emotionControl.html">Emotion</a>
+        <a class="navbar-brand w-100 text-center" href="http://localhost:3000/vibeControl.html">Vibe</a>
+        <a class="navbar-brand w-100 text-center btn bg-warning" href="http://localhost:3000/lyricControl.html">Lyric</a>
+      </div>
+    </nav>
+    <div class="container">
+      <h2 class="mb-2">🎤 Lyrics Control Panel</h2>
+      <a class="p-2 text-black text-center btn bg-warning mb-2" href="http://localhost:3000/lyricOverlay.html" target="_blank">Overlay</a>
+
+      <div class="mb-3">
+        <label class="form-label">Paste Semua Lirik:</label>
+        <textarea id="lyricsInput" class="form-control" rows="10"></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Baris per tampilan</label>
+        <select id="linesPerSlide" class="form-select w-25">
+          <option value="2">2 Baris</option>
+          <option value="3">3 Baris</option>
+          <option value="4">4 Baris</option>
+        </select>
+      </div>
+
+      <div class="mb-4">
+        <button id="loadLyrics" class="btn btn-primary">Load Lyrics</button>
+        <button id="prevBtn" class="btn btn-warning">◀ Prev</button>
+        <button id="nextBtn" class="btn btn-success">Next ▶</button>
+        <button id="clearBtn" class="btn btn-danger">Clear</button>
+      </div>
+    </div>
+
+    <script>
+      const ws = new WebSocket("ws://localhost:3000");
+
+      let slides = [];
+      let currentIndex = 0;
+
+      function splitLyrics(text, linesPerSlide) {
+        let rawLines = text.split("\n");
+
+        let cleaned = rawLines.filter((line) => {
+          const trimmed = line.trim();
+          if (trimmed === "") return false;
+
+          // Hapus [Verse], [Chorus], dll
+          if (/^\[.*\]$/.test(trimmed)) return false;
+
+          // Hapus promosi & metadata umum
+          const lower = trimmed.toLowerCase();
+
+          if (lower.includes("you might also like")) return false;
+          if (lower.includes("genius")) return false;
+          if (lower.includes("(romanized)")) return false;
+
+          if (/ - /.test(trimmed)) return false;
+
+          if (trimmed.length > 80) return false;
+
+          if (/[『』【】]/.test(trimmed)) return false;
+
+          return true;
+        });
+
+        let result = [];
+
+        for (let i = 0; i < cleaned.length; i += linesPerSlide) {
+          result.push(cleaned.slice(i, i + linesPerSlide));
+        }
+
+        return result;
+      }
+
+      $("#loadLyrics").click(function () {
+        const text = $("#lyricsInput").val();
+        const linesPerSlide = parseInt($("#linesPerSlide").val());
+
+        slides = splitLyrics(text, linesPerSlide);
+        currentIndex = 0;
+
+        sendSlide();
+      });
+
+      $("#nextBtn").click(function () {
+        if (currentIndex < slides.length - 1) {
+          currentIndex++;
+          sendSlide();
+        }
+      });
+
+      $("#prevBtn").click(function () {
+        if (currentIndex > 0) {
+          currentIndex--;
+          sendSlide();
+        }
+      });
+
+      $("#clearBtn").click(function () {
+        ws.send(JSON.stringify({ type: "lyrics", action: "clear" }));
+      });
+
+      function sendSlide() {
+        ws.send(
+          JSON.stringify({
+            type: "lyrics",
+            action: "show",
+            lines: slides[currentIndex],
+          })
+        );
+      }
+    </script>
+  </body>
+</html>
